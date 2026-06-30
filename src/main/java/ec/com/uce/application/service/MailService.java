@@ -1,5 +1,6 @@
 package ec.com.uce.application.service;
 
+import ec.com.uce.application.service.interceptor.MedirTiempo;
 import ec.com.uce.domain.model.Mail;
 import ec.com.uce.infrastructure.repository.MailRepositoryImpl;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -13,14 +14,16 @@ public class MailService {
     @Inject
     private MailRepositoryImpl mailRepositoryImpl;
 
-    public void guardar(Mail mail){
-        mail.persist();
-        //this.mailRepositoryImpl.persist(mail);
+    @MedirTiempo
+    public void guardar(Mail mail) {
+        String nombreHilo = Thread.currentThread().getName();
+        System.out.println("Nombre de hilo MailService " + nombreHilo);
+        System.out.println("ID " + Thread.currentThread().threadId());
+        this.mailRepositoryImpl.persist(mail);
     }
 
-    public Mail buscarPorId(Integer id){
-        return Mail.findById(id);
-        //return this.mailRepositoryImpl.findById(id);
+    public Mail buscarPorId(Integer id) {
+        return this.mailRepositoryImpl.findById(id);
     }
 
 }

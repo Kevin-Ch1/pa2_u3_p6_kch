@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import ec.com.uce.application.service.FacturaService;
 import ec.com.uce.application.service.MailService;
 import ec.com.uce.application.service.ReporteService;
+import ec.com.uce.application.service.interceptor.MedirTiempo;
 import ec.com.uce.domain.model.Factura;
 import ec.com.uce.domain.model.Mail;
 import ec.com.uce.domain.model.Reporte;
@@ -29,29 +30,21 @@ public class Main {
         @Inject
         private MailService mailService;
 
+        @Inject
+        private FacturaService facturaService;
+
         @Override
         public int run(String... args) throws Exception {
             
-            Reporte rep = new Reporte();
-            rep.setCodigoReferencia("R001");
-            rep.setTipoReporte("Factura");
-            rep.setTitulo("Problemas factura");
-            rep.setDescripcion("No registra un campo");
-            rep.setFechaCreacion(LocalDateTime.now());
+            String nombreHilo = Thread.currentThread().getName();
+            System.out.println("Nombre de hilo Main " + nombreHilo);
+            System.out.println("ID " + Thread.currentThread().threadId());
 
-            reporteService.guardar(rep);
-            System.out.println(reporteService.buscarPorId(1).getTitulo());
-
-            Mail mail = new Mail();
-            mail.setRemitente("Kevin");
-            mail.setDestinatario("Julia");
-            mail.setAsunto("Fotos dataset");
-            mail.setCuerpo("Envio fotos de dataset");
-            mail.setFechaEnvio(LocalDateTime.now());
-
-            mailService.guardar(mail);
-            System.out.println(mailService.buscarPorId(1).getAsunto());
-
+            Factura fac = new Factura();
+            fac.setFecha(LocalDate.of(2026, 10, 1));
+            fac.setNumero("123566");
+            fac.setRuc("123456789789");
+            this.facturaService.guardar(fac);
 
             return 0;
         }
