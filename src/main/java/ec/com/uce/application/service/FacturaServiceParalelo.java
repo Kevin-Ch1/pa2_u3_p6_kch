@@ -1,6 +1,8 @@
 package ec.com.uce.application.service;
 
 import java.time.LocalDateTime;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import ec.com.uce.application.service.interceptor.MedirTiempo;
 import ec.com.uce.domain.model.Factura;
@@ -13,7 +15,7 @@ import jakarta.transaction.Transactional;
 
 @Transactional
 @ApplicationScoped
-public class FacturaService {
+public class FacturaServiceParalelo {
 
     @Inject
     private FacturaRepositoryImpl facturaRepositoryImpl;
@@ -24,7 +26,7 @@ public class FacturaService {
     @Inject
     private MailService mailService;
 
-    //@MedirTiempo
+   // @MedirTiempo
     public void guardar(Factura factura) {
         String nombreHilo = Thread.currentThread().getName();
         System.out.println("Nombre de hilo FacturaService " + nombreHilo);
@@ -32,22 +34,26 @@ public class FacturaService {
 
         this.facturaRepositoryImpl.persist(factura);
 
+        ExecutorService executorService = Executors.newFixedThreadPool(2);
+
         Reporte repo = new Reporte();
         repo.setCodigoReferencia("123456");
         repo.setTitulo("Reporte de la factura");
         repo.setFechaCreacion(LocalDateTime.now());
         repo.setDescripcion("Factura - 001");
-        this.reporteService.guardar(repo);
+        ReporteServiceTarea reporteTarea = new ReporteServiceTarea(repo);
+        executorService.submit(reporteTarea);
 
         Mail mail = new Mail();
         mail.setAsunto("Factura");
         mail.setDestinatario("kchicaiza253@gmail.com");
         mail.setFechaEnvio(LocalDateTime.now());
-        this.mailService.guardar(mail);
+        MailServiceTarea mailTarea = new MailServiceTarea(mail);
+        executorService.submit(mailTarea);
+
+        // Cerrar el proceso de ejecución indicando que no se envian más tareas
+        executorService.shutdown();
 
     }
 
-    public Factura buscarPorId(Integer id) {
-        return this.facturaRepositoryImpl.findById(id);
-    }
 }

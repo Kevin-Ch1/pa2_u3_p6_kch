@@ -1,6 +1,5 @@
 package ec.com.uce.application.service.interceptor;
 
-import jakarta.annotation.Priority;
 import jakarta.interceptor.AroundInvoke;
 import jakarta.interceptor.Interceptor;
 import jakarta.interceptor.InvocationContext;

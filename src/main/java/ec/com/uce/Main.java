@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import ec.com.uce.application.service.FacturaService;
+import ec.com.uce.application.service.FacturaServiceParalelo;
 import ec.com.uce.application.service.MailService;
 import ec.com.uce.application.service.ReporteService;
 import ec.com.uce.application.service.interceptor.MedirTiempo;
@@ -24,14 +25,9 @@ public class Main {
 
     public static class App implements QuarkusApplication{
 
+        
         @Inject
-        private ReporteService reporteService;
-
-        @Inject
-        private MailService mailService;
-
-        @Inject
-        private FacturaService facturaService;
+        private FacturaServiceParalelo facturaServiceP;
 
         @Override
         public int run(String... args) throws Exception {
@@ -44,7 +40,7 @@ public class Main {
             fac.setFecha(LocalDate.of(2026, 10, 1));
             fac.setNumero("123566");
             fac.setRuc("123456789789");
-            this.facturaService.guardar(fac);
+            this.facturaServiceP.guardar(fac);
 
             return 0;
         }
