@@ -24,7 +24,7 @@ public class FacturaService {
     @Inject
     private MailService mailService;
 
-    //@MedirTiempo
+    @MedirTiempo
     public void guardar(Factura factura) {
         String nombreHilo = Thread.currentThread().getName();
         System.out.println("Nombre de hilo FacturaService " + nombreHilo);

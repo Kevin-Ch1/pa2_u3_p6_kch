@@ -3,6 +3,7 @@ package ec.com.uce.application.service;
 import java.time.LocalDateTime;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 import ec.com.uce.application.service.interceptor.MedirTiempo;
 import ec.com.uce.domain.model.Factura;
@@ -26,7 +27,13 @@ public class FacturaServiceParalelo {
     @Inject
     private MailService mailService;
 
-   // @MedirTiempo
+    @Inject
+    private ReporteService reporteService2;
+
+    @Inject
+    private MailService mailService2;
+
+    @MedirTiempo
     public void guardar(Factura factura) {
         String nombreHilo = Thread.currentThread().getName();
         System.out.println("Nombre de hilo FacturaService " + nombreHilo);
@@ -41,19 +48,25 @@ public class FacturaServiceParalelo {
         repo.setTitulo("Reporte de la factura");
         repo.setFechaCreacion(LocalDateTime.now());
         repo.setDescripcion("Factura - 001");
-        ReporteServiceTarea reporteTarea = new ReporteServiceTarea(repo);
-        executorService.submit(reporteTarea);
+        ReporteServiceTarea reporteTarea = new ReporteServiceTarea(repo, reporteService2);
+        Future<?> repoFuture = executorService.submit(reporteTarea);
 
         Mail mail = new Mail();
         mail.setAsunto("Factura");
         mail.setDestinatario("kchicaiza253@gmail.com");
         mail.setFechaEnvio(LocalDateTime.now());
-        MailServiceTarea mailTarea = new MailServiceTarea(mail);
-        executorService.submit(mailTarea);
+        MailServiceTarea mailTarea = new MailServiceTarea(mail, mailService2);
+        Future<?> mailFuture = executorService.submit(mailTarea);
 
         // Cerrar el proceso de ejecución indicando que no se envian más tareas
-        executorService.shutdown();
 
+
+        executorService.shutdown();
+        try {
+            Thread.sleep(1000);
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
     }
 
 }

@@ -14,7 +14,7 @@ public class ReporteService {
     @Inject
     private ReporteRepositoryImpl reporteRepositoryImpl;
 
-    //@MedirTiempo
+    @MedirTiempo
     public void guardar(Reporte reporte) {
         String nombreHilo = Thread.currentThread().getName();
         System.out.println("Nombre de hilo ReporteService " + nombreHilo);
