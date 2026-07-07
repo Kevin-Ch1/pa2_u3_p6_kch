@@ -1,10 +1,7 @@
 package ec.com.uce.application.service;
 
 import java.time.LocalDateTime;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
+import java.util.concurrent.CompletableFuture;
 
 import ec.com.uce.application.service.interceptor.MedirTiempo;
 import ec.com.uce.domain.model.Factura;
@@ -17,52 +14,47 @@ import jakarta.transaction.Transactional;
 
 @Transactional
 @ApplicationScoped
-public class FacturaServiceParalelo {
+public class FacturaServiceCompletableFuture {
 
     @Inject
     private FacturaRepositoryImpl facturaRepositoryImpl;
 
     @Inject
-    private ReporteServiceTarea reporteServiceTarea;
+    private ReporteService reporteService;
 
     @Inject
-    private MailServiceTarea mailServiceTarea;
-
+    private MailService mailService;
 
     @MedirTiempo
-    public void guardar(Factura factura) throws InterruptedException, ExecutionException {
+    public void guardar(Factura factura) {
         String nombreHilo = Thread.currentThread().getName();
         System.out.println("Nombre de hilo FacturaService " + nombreHilo);
         System.out.println("ID " + Thread.currentThread().threadId());
 
         this.facturaRepositoryImpl.persist(factura);
 
-        ExecutorService executorService = Executors.newFixedThreadPool(2);
-
         Reporte repo = new Reporte();
         repo.setCodigoReferencia("123456");
         repo.setTitulo("Reporte de la factura");
         repo.setFechaCreacion(LocalDateTime.now());
         repo.setDescripcion("Factura - 001");
-        
-        this.reporteServiceTarea.setReporte(repo);
-        Future<?> repoFuture = executorService.submit(reporteServiceTarea);
+
+        // Ejecuta la tarea de forma asincrona
+        CompletableFuture<Void> completableReporte = CompletableFuture
+                .runAsync(() -> this.reporteService.guardar(repo));
 
         Mail mail = new Mail();
         mail.setAsunto("Factura");
         mail.setDestinatario("kchicaiza253@gmail.com");
         mail.setFechaEnvio(LocalDateTime.now());
-        
-        this.mailServiceTarea.setMail(mail);
-        Future<?> mailFuture = executorService.submit(mailServiceTarea);
+        CompletableFuture<Void> completableMail = CompletableFuture
+                .runAsync(() -> this.mailService.guardar(mail));
 
-        repoFuture.get();
+        //Espera a que las dos tareas/hilos se terminen
+        CompletableFuture.allOf(completableReporte, completableMail).join();
 
-        mailFuture.get();
+        
 
-        executorService.shutdown();
-        
-        
     }
 
 }
