@@ -16,8 +16,8 @@ import jakarta.persistence.Table;
 public class Auditoria extends PanacheEntityBase {
 
     @Id
-    @SequenceGenerator(name = "seq_auditoria_t", sequenceName = "seq_auditoria", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_auditoria")
+    @SequenceGenerator(name = "seq_auditoria_generador", sequenceName = "seq_auditoria", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_auditoria_generador")
     private Integer id;
 
     @Column(name = "audi_nombreMetodo")

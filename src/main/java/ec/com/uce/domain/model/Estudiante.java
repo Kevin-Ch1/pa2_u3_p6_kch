@@ -14,8 +14,8 @@ import jakarta.persistence.Table;
 public class Estudiante extends PanacheEntityBase {
 
     @Id
-    @SequenceGenerator(name = "seq_estuiante_t", sequenceName = "seq_estudiante", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_estudiante")
+    @SequenceGenerator(name = "seq_estudiante_generator", sequenceName = "seq_estudiante", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_estudiante_generator")
     private Integer id;
     
     @Column(name = "estu_nombre")
@@ -46,6 +46,11 @@ public class Estudiante extends PanacheEntityBase {
 
     public void setApellido(String apellido) {
         this.apellido = apellido;
+    }
+
+    @Override
+    public String toString() {
+        return "Estudiante [id=" + id + ", nombre=" + nombre + ", apellido=" + apellido + "]";
     }
 
     

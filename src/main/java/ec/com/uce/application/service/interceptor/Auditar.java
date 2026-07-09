@@ -10,5 +10,5 @@ import jakarta.interceptor.InterceptorBinding;
 @InterceptorBinding
 @Target({ ElementType.METHOD, ElementType.TYPE })
 @Retention(RetentionPolicy.RUNTIME)
-public @interface MedirTiempo {
+public @interface Auditar {
 }

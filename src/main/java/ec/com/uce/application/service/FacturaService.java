@@ -2,7 +2,7 @@ package ec.com.uce.application.service;
 
 import java.time.LocalDateTime;
 
-import ec.com.uce.application.service.interceptor.MedirTiempo;
+import ec.com.uce.application.service.interceptor.Auditar;
 import ec.com.uce.domain.model.Factura;
 import ec.com.uce.domain.model.Mail;
 import ec.com.uce.domain.model.Reporte;
@@ -24,7 +24,7 @@ public class FacturaService {
     @Inject
     private MailService mailService;
 
-    @MedirTiempo
+    @Auditar
     public void guardar(Factura factura) {
         String nombreHilo = Thread.currentThread().getName();
         System.out.println("Nombre de hilo FacturaService " + nombreHilo);

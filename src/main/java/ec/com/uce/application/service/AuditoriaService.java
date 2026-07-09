@@ -12,7 +12,7 @@ public class AuditoriaService {
     private AuditoriaRepositoryImpl auditoriaRepositoryImpl;
 
     
-    public void guardar(Auditoria auditoria) {
+    public void guardarAud(Auditoria auditoria) {
         this.auditoriaRepositoryImpl.persist(auditoria);
     }
 

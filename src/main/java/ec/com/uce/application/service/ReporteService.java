@@ -1,6 +1,6 @@
 package ec.com.uce.application.service;
 
-import ec.com.uce.application.service.interceptor.MedirTiempo;
+import ec.com.uce.application.service.interceptor.Auditar;
 import ec.com.uce.domain.model.Reporte;
 import ec.com.uce.infrastructure.repository.ReporteRepositoryImpl;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -14,7 +14,7 @@ public class ReporteService {
     @Inject
     private ReporteRepositoryImpl reporteRepositoryImpl;
 
-    @MedirTiempo
+    @Auditar
     public void guardar(Reporte reporte) {
         String nombreHilo = Thread.currentThread().getName();
         System.out.println("Nombre de hilo ReporteService " + nombreHilo);

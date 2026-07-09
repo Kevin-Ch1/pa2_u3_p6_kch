@@ -1,6 +1,7 @@
 package ec.com.uce.application.service.interceptor;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 
 import ec.com.uce.application.service.AuditoriaService;
 import ec.com.uce.domain.model.Auditoria;
@@ -25,13 +26,13 @@ public class AuditarInterceptor {
         Object registrar = context.proceed();
         Object[] obj = context.getParameters();
         a.setNombreMetodo(context.getMethod().getName());
-        a.setArgumentos(obj.getClass().getTypeParameters().toString());
+        a.setArgumentos(Arrays.toString(obj));
         a.setFechaHoraEjecucion(LocalDateTime.now());
         Long fin = System.currentTimeMillis() - inicio;
 
         a.setTiempoEjecucuionMS(fin);
 
-        auditoriaService.guardar(a);
+        auditoriaService.guardarAud(a);
 
         return registrar;
     }

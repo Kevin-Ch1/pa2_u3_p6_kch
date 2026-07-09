@@ -1,6 +1,6 @@
 package ec.com.uce.application.service;
 
-import ec.com.uce.application.service.interceptor.MedirTiempo;
+import ec.com.uce.application.service.interceptor.Auditar;
 import ec.com.uce.domain.model.Mail;
 import ec.com.uce.infrastructure.repository.MailRepositoryImpl;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -14,7 +14,7 @@ public class MailService {
     @Inject
     private MailRepositoryImpl mailRepositoryImpl;
 
-    @MedirTiempo
+    @Auditar
     public void guardar(Mail mail) {
         String nombreHilo = Thread.currentThread().getName();
         System.out.println("Nombre de hilo MailService " + nombreHilo);
