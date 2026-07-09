@@ -26,11 +26,11 @@ public class AuditarInterceptor {
         Object registrar = context.proceed();
         Object[] obj = context.getParameters();
         a.setNombreMetodo(context.getMethod().getName());
-        a.setArgumentos(Arrays.toString(obj));
+        a.setArgumentos(null);
         a.setFechaHoraEjecucion(LocalDateTime.now());
         Long fin = System.currentTimeMillis() - inicio;
 
-        a.setTiempoEjecucuionMS(fin);
+        a.setTiempoEjecucuionMS(null);
 
         auditoriaService.guardarAud(a);
 

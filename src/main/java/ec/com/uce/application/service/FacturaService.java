@@ -37,7 +37,7 @@ public class FacturaService {
         repo.setTitulo("Reporte de la factura");
         repo.setFechaCreacion(LocalDateTime.now());
         repo.setDescripcion("Factura - 001");
-        this.reporteService.guardar(repo);
+        this.reporteService.guardarRepo(repo);
 
         Mail mail = new Mail();
         mail.setAsunto("Factura");

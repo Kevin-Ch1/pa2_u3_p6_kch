@@ -17,7 +17,7 @@ public class ReporteServiceTarea implements Runnable {
         String nombreHilo = Thread.currentThread().getName();
         System.out.println("Nombre de hilo ReporteService " + nombreHilo);
         System.out.println(this.reporteService);
-        this.reporteService.guardar(this.reporte);
+        this.reporteService.guardarRepo(this.reporte);
     }
 
     public void setReporte(Reporte reporte) {

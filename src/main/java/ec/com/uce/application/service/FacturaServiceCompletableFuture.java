@@ -41,7 +41,7 @@ public class FacturaServiceCompletableFuture {
 
         // Ejecuta la tarea de forma asincrona
         CompletableFuture<Void> completableReporte = CompletableFuture
-                .runAsync(() -> this.reporteService.guardar(repo));
+                .runAsync(() -> this.reporteService.guardarRepo(repo));
 
         Mail mail = new Mail();
         mail.setAsunto("Factura");

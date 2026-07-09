@@ -42,7 +42,7 @@ public class AuditarInterceptor2 {
         aud.setNombreMetodo(nombreMetodo);
         aud.setFechaHoraEjecucion(LocalDateTime.now());
         aud.setTiempoEjecucuionMS(tiempoTranscurrido);
-        aud.setArgumentos(argumentosStr);
+        aud.setArgumentos(null);
 
         this.auditoriaService.guardarAud(aud);
         
