@@ -9,24 +9,23 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 
-@Transactional
 @ApplicationScoped
+@Transactional
 public class ReporteService {
 
     @Inject
     private ReporteRepositoryImpl reporteRepositoryImpl;
 
-    
     public void guardarRepo(Reporte reporte) {
         String nombreHilo = Thread.currentThread().getName();
         System.out.println("Nombre de hilo ReporteService " + nombreHilo);
         System.out.println("ID " + Thread.currentThread().threadId());
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+        // try {
+        //     Thread.sleep(2000);
+        // } catch (InterruptedException e) {
+        //     // TODO Auto-generated catch block
+        //     e.printStackTrace();
+        // }
         this.reporteRepositoryImpl.persist(reporte);
 
     }
@@ -36,6 +35,15 @@ public class ReporteService {
         for (Reporte p : lista) {
             this.guardarRepo(p);
         }
+    }
+
+    @Auditar
+    public void guardarListaDeReportesParalelo(List<Reporte> lista) {
+        lista.parallelStream().forEach(reporte -> {
+            // Aqui programo toda la logica que quiero que se aplique a cada item de la
+            // lista
+            this.guardarRepo(reporte);
+        });
     }
 
     public Reporte buscarPorId(Integer id) {

@@ -1,7 +1,7 @@
 package ec.com.uce.application.service.interceptor;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
+
 
 import ec.com.uce.application.service.AuditoriaService;
 import ec.com.uce.domain.model.Auditoria;

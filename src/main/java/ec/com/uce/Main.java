@@ -1,17 +1,11 @@
 package ec.com.uce;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import ec.com.uce.application.service.EstudianteService;
-import ec.com.uce.application.service.FacturaServiceCompletableFuture;
 import ec.com.uce.application.service.ReporteService;
-import ec.com.uce.domain.model.Estudiante;
-import ec.com.uce.domain.model.Factura;
 import ec.com.uce.domain.model.Reporte;
-import ec.com.uce.infrastructure.repository.EstudianteRepositoryImpl;
 import io.quarkus.runtime.Quarkus;
 import io.quarkus.runtime.QuarkusApplication;
 import io.quarkus.runtime.annotations.QuarkusMain;
@@ -34,7 +28,7 @@ public class Main {
 
             List<Reporte> lista = new ArrayList<>();
 
-            for (int i = 0; i < 10; i++) {
+            for (int i = 0; i < 100000; i++) {
                 Reporte repo = new Reporte();
                 repo.setCodigoReferencia(""+i);
                 repo.setTitulo("Reporte de la factura");
@@ -43,7 +37,7 @@ public class Main {
                 lista.add(repo);
             }
 
-            this.reporteService.guardarListaDeReportes(lista);
+            this.reporteService.guardarListaDeReportesParalelo(lista);
             return 0;
         }
     }
