@@ -29,17 +29,17 @@ public class Main {
 
             List<Libro> lista = new ArrayList<>();
 
-            for(int i = 0; i <= 500; i++){
+            for(int i = 0; i <= 500000; i++){
                 Libro lib = new Libro();
-                lib.setTitulo("Los propios dioses");
-                lib.setAutor("Isaac Asimov");
-                lib.setGenero("Ciencia Ficción");
-                lib.setFechaPublicacion(LocalDate.of(1972, 4, 28));
-                lib.setPrecio(13.40);
+                lib.setTitulo("Memento Mori: Recuerda tu muerte ");
+                lib.setAutor("Montesinos Humberto");
+                lib.setGenero("Autoayuda");
+                lib.setFechaPublicacion(LocalDate.of(2025, 8, 1));
+                lib.setPrecio(24.50);
                 lista.add(lib);
             }
 
-            this.libroService.guardarListaDeLibros(lista);
+            this.libroService.guardarListaDeLibrosParalelo(lista);
 
             return 0;
         }

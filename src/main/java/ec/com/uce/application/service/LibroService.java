@@ -20,21 +20,27 @@ public class LibroService {
         String nombreHilo = Thread.currentThread().getName();
         System.out.println("Nombre de hilo LibroService " + nombreHilo);
         System.out.println("ID " + Thread.currentThread().threadId());
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
+        // try {
+        //     Thread.sleep(3000);
+        // } catch (InterruptedException e) {
 
-            e.printStackTrace();
-        }
+        //     e.printStackTrace();
+        // }
         this.libroRepositoryImpl.persist(libro);
     }
 
     @Auditar
-    
     public void guardarListaDeLibros(List<Libro> lista){
         for (Libro p : lista) {
             this.guardarLibro(p);
         }
+    }
+
+    @Auditar
+    public void guardarListaDeLibrosParalelo(List<Libro> lista){
+        lista.parallelStream().forEach(libro  -> {
+            this.guardarLibro(libro);
+        });
     }
 
 }
